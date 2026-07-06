@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modern Web Design Templates — Gallery</title>
+<meta name="description" content="12 modern, dependency-free web design templates, each with a design doc and an API design in a different language.">
+<style>
+  :root{
+    --bg:#0b0d12; --panel:#12151d; --line:#232838; --text:#e8ebf2; --dim:#9aa3b5;
+    --accent:#7c8cff; --accent2:#4fd8c0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  header{padding:88px 0 56px;text-align:center;background:
+    radial-gradient(700px 340px at 50% -80px, rgba(124,140,255,.22), transparent 70%),
+    radial-gradient(500px 260px at 80% 0, rgba(79,216,192,.12), transparent 70%)}
+  .kicker{display:inline-block;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent2);border:1px solid var(--line);padding:6px 14px;border-radius:999px;margin-bottom:20px}
+  h1{font-size:clamp(34px,5.5vw,58px);line-height:1.08;letter-spacing:-.02em;font-weight:800}
+  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{color:var(--dim);max-width:640px;margin:18px auto 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding:24px 0 80px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .18s ease,border-color .18s ease}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .thumb{height:120px;display:flex;align-items:flex-end;padding:16px;font-weight:800;font-size:22px;letter-spacing:-.01em}
+  .body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .body p{color:var(--dim);font-size:14px;flex:1}
+  .meta{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
+  .tag.lang{color:var(--accent2);border-color:rgba(79,216,192,.35)}
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--dim);font-size:14px;text-align:center}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="kicker">12 templates · zero dependencies</span>
+    <h1>Modern Web Design <span>Templates</span></h1>
+    <p>Every template is a single self-contained page with a design doc and a backend API design — each API in a different language, using that language's best framework.</p>
+  </div>
+</header>
+<main class="wrap">
+  <div class="grid">
+    <a class="card" href="templates/nova-saas/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#101427,#1b2350);color:#a5b4ff">Nova</div>
+      <div class="body"><p>Dark glassmorphism SaaS landing page with gradient mesh hero, pricing and feature grid.</p>
+        <div class="meta"><span class="tag">SaaS landing</span><span class="tag lang">TypeScript · Hono</span></div></div>
+    </a>
+    <a class="card" href="templates/pulse-dashboard/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#0d1117,#15202f);color:#58d3f7">Pulse</div>
+      <div class="body"><p>Analytics dashboard shell — sidebar nav, KPI cards, pure-CSS charts and a data table.</p>
+        <div class="meta"><span class="tag">Dashboard</span><span class="tag lang">C# · ASP.NET Core</span></div></div>
+    </a>
+    <a class="card" href="templates/lumen-portfolio/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#faf7f2,#efe7da);color:#1e1a14">Lumen</div>
+      <div class="body"><p>Light editorial portfolio with oversized serif type, case-study list and marquee.</p>
+        <div class="meta"><span class="tag">Portfolio</span><span class="tag lang">Go · chi</span></div></div>
+    </a>
+    <a class="card" href="templates/verde-restaurant/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#13291c,#1e4630);color:#e8d9a8">Verde</div>
+      <div class="body"><p>Warm restaurant site — tasting menu with tabs, reservations form, hours and location.</p>
+        <div class="meta"><span class="tag">Restaurant</span><span class="tag lang">PHP · Laravel</span></div></div>
+    </a>
+    <a class="card" href="templates/atlas-travel/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#062b3a,#0d5c74);color:#ffd98e">Atlas</div>
+      <div class="body"><p>Travel agency landing with destination cards, trip search bar and itinerary steps.</p>
+        <div class="meta"><span class="tag">Travel</span><span class="tag lang">Python · FastAPI</span></div></div>
+    </a>
+    <a class="card" href="templates/forge-agency/index.html">
+      <div class="thumb" style="background:#111;color:#ffe600">Forge</div>
+      <div class="body"><p>Brutalist creative-agency site — huge type, harsh grid, hover-reveal project index.</p>
+        <div class="meta"><span class="tag">Agency</span><span class="tag lang">Rust · Axum</span></div></div>
+    </a>
+    <a class="card" href="templates/mono-blog/index.html">
+      <div class="thumb" style="background:#fbfbf9;color:#141414;font-family:Georgia,serif">Mono.</div>
+      <div class="body"><p>Minimal typographic blog — reading-first layout, article list, dark-mode toggle.</p>
+        <div class="meta"><span class="tag">Blog</span><span class="tag lang">Ruby · Rails</span></div></div>
+    </a>
+    <a class="card" href="templates/haven-realestate/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#1c2430,#2c3e50);color:#e7cf9f">Haven</div>
+      <div class="body"><p>Real-estate listings — filterable property grid, agent cards, mortgage mini-calculator.</p>
+        <div class="meta"><span class="tag">Real estate</span><span class="tag lang">Java · Spring Boot</span></div></div>
+    </a>
+    <a class="card" href="templates/volt-fitness/index.html">
+      <div class="thumb" style="background:#0a0a0f;color:#c8ff2e">Volt</div>
+      <div class="body"><p>Neon gym site — class schedule grid, membership tiers, animated stat counters.</p>
+        <div class="meta"><span class="tag">Fitness</span><span class="tag lang">Kotlin · Ktor</span></div></div>
+    </a>
+    <a class="card" href="templates/drift-store/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#f4f2ee,#e7e2d9);color:#20201c">Drift</div>
+      <div class="body"><p>Clean e-commerce storefront — product grid with client-side cart drawer and filters.</p>
+        <div class="meta"><span class="tag">E-commerce</span><span class="tag lang">Elixir · Phoenix</span></div></div>
+    </a>
+    <a class="card" href="templates/orbit-fintech/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#070b1a,#101b3e);color:#6ee7ff">Orbit</div>
+      <div class="body"><p>Fintech app landing — glowing orbital hero, live-style ticker, security feature grid.</p>
+        <div class="meta"><span class="tag">Fintech</span><span class="tag lang">Swift · Vapor</span></div></div>
+    </a>
+    <a class="card" href="templates/bloom-events/index.html">
+      <div class="thumb" style="background:linear-gradient(135deg,#2b0f3a,#7a1f6e);color:#ffd1f0">Bloom</div>
+      <div class="body"><p>Conference site — vibrant gradient hero, speaker grid, agenda timeline, countdown.</p>
+        <div class="meta"><span class="tag">Events</span><span class="tag lang">Scala · http4s</span></div></div>
+    </a>
+  </div>
+</main>
+<footer>
+  <div class="wrap">MIT licensed · <a href="https://github.com/marvijo-code/modern-web-design-templates">github.com/marvijo-code/modern-web-design-templates</a></div>
+</footer>
+</body>
+</html>
