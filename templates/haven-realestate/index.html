@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Haven — Homes worth coming back to</title>
+<meta name="description" content="Haven — curated property listings across the Western Cape.">
+<style>
+  :root{
+    --navy:#1c2430; --slate:#2c3e50; --paper:#f7f6f3; --gold:#c9a227; --gold-soft:#e7cf9f;
+    --text:#232a33; --dim:#75808d; --line:#e1ded7; --card:#ffffff; --green:#2e7d5b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--text);font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:Georgia,'Times New Roman',serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  nav{background:var(--navy);color:#dfe5ec;position:sticky;top:0;z-index:50}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-size:21px;color:#fff;letter-spacing:.02em}
+  .logo b{color:var(--gold-soft)}
+  .nav-links{display:flex;gap:24px;font-size:13.5px}
+  .nav-links a:hover{color:var(--gold-soft)}
+  .nav-cta{border:1px solid var(--gold);color:var(--gold-soft);padding:8px 18px;border-radius:6px;font-size:13px;transition:.2s}
+  .nav-cta:hover{background:var(--gold);color:var(--navy)}
+
+  .hero{background:linear-gradient(160deg,var(--navy),var(--slate));color:#fff;padding:84px 0 120px;position:relative}
+  .hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.1;font-weight:400;max-width:640px}
+  .hero h1 em{color:var(--gold-soft)}
+  .hero p{color:#aeb9c6;max-width:480px;margin-top:16px;font-size:17px}
+  .skyline{position:absolute;bottom:0;left:0;right:0;height:90px;pointer-events:none;opacity:.35}
+
+  .filterbar{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 50px rgba(28,36,48,.14);padding:20px;margin-top:-56px;position:relative;z-index:5;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr auto;gap:12px;align-items:end}
+  .filterbar label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:6px}
+  .filterbar select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:14px;background:#fff;color:var(--text)}
+  .filterbar select:focus{outline:2px solid var(--gold);outline-offset:-1px}
+  .filterbar .go{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:12px 22px;font-weight:600;font-size:14px;cursor:pointer;transition:.2s}
+  .filterbar .go:hover{background:var(--slate)}
+
+  section{padding:76px 0}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:32px;gap:16px;flex-wrap:wrap}
+  .eyebrow{color:var(--gold);font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800}
+  h2{font-size:clamp(26px,3.8vw,38px);font-weight:400;margin-top:8px}
+  .result-count{color:var(--dim);font-size:14px}
+
+  .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .home{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .home:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(28,36,48,.12)}
+  .home .visual{height:140px;position:relative;display:flex;align-items:flex-start;justify-content:space-between;padding:12px}
+  .home .visual .status{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--navy);padding:4px 10px;border-radius:999px}
+  .home .visual .status.new{background:var(--gold);color:var(--navy)}
+  .fav{background:rgba(255,255,255,.92);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--navy);display:grid;place-items:center}
+  .fav.on{color:#d33c55}
+  .home .body{padding:16px 18px 18px}
+  .home .price{font-size:20px;font-weight:800;color:var(--navy)}
+  .home .price small{color:var(--dim);font-weight:400;font-size:12.5px}
+  .home h3{font-size:15.5px;font-weight:600;margin:6px 0 2px}
+  .home .area{color:var(--dim);font-size:13.5px}
+  .home .specs{display:flex;gap:14px;border-top:1px dashed var(--line);margin-top:14px;padding-top:12px;font-size:13px;color:var(--dim)}
+  .home .specs b{color:var(--text)}
+  .none{grid-column:1/-1;text-align:center;color:var(--dim);padding:44px;border:1px dashed var(--line);border-radius:14px;display:none}
+
+  .calc-band{background:var(--navy);color:#fff}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .calc-grid h2{color:#fff}
+  .calc-grid .lead{color:#aeb9c6;margin-top:12px}
+  .calc{background:var(--slate);border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:20px}
+  .calc label{display:flex;justify-content:space-between;font-size:13px;color:#c6cfda;margin-bottom:8px}
+  .calc label output{color:var(--gold-soft);font-weight:700}
+  .calc input[type=range]{width:100%;accent-color:var(--gold)}
+  .calc .result{border-top:1px solid rgba(255,255,255,.15);padding-top:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .calc .result span{color:#aeb9c6;font-size:14px}
+  .calc .result b{font-size:30px;color:var(--gold-soft);font-weight:800}
+
+  .agents{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .agent{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+  .agent .pic{width:72px;height:72px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font-size:22px;font-weight:800;color:#fff}
+  .agent h3{font-size:16.5px}
+  .agent .role{color:var(--dim);font-size:13px;margin:4px 0 12px}
+  .agent .stats{display:flex;justify-content:center;gap:18px;font-size:12.5px;color:var(--dim);border-top:1px dashed var(--line);padding-top:12px}
+  .agent .stats b{display:block;color:var(--navy);font-size:16px}
+
+  footer{background:var(--navy);color:#8f9aa8;padding:40px 0;font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .foot a:hover{color:#fff}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:920px){
+    .listings,.agents{grid-template-columns:1fr 1fr}
+    .filterbar{grid-template-columns:1fr 1fr}
+    .calc-grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+  }
+  @media(max-width:600px){.listings,.agents{grid-template-columns:1fr}.filterbar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo serif" href="#">Haven <b>&amp;</b> Co</a>
+    <div class="nav-links">
+      <a href="#listings">Buy</a><a href="#listings">Rent</a><a href="#calc">Finance</a><a href="#agents">Agents</a>
+    </div>
+    <a class="nav-cta" href="#agents">Book a valuation</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="serif">Homes worth <em>coming back to.</em></h1>
+    <p>Curated listings across the Western Cape — vetted, photographed honestly, and priced with evidence, not optimism.</p>
+  </div>
+  <svg class="skyline" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 90 L0 60 H60 V38 H110 V60 H150 V22 H210 V60 H260 V45 H330 V60 H370 V15 H450 V60 H510 V35 H580 V60 H640 V28 H720 V60 H790 V48 H860 V60 H900 V18 H980 V60 H1050 V40 H1120 V60 H1180 V30 H1260 V60 H1320 V45 H1440 V90 Z" fill="#0e141d"/>
+  </svg>
+</header>
+
+<div class="wrap">
+  <form class="filterbar" id="filters">
+    <div>
+      <label for="fArea">Area</label>
+      <select id="fArea"><option value="">All areas</option><option>Sea Point</option><option>Stellenbosch</option><option>Constantia</option><option>Woodstock</option><option>Noordhoek</option></select>
+    </div>
+    <div>
+      <label for="fType">Type</label>
+      <select id="fType"><option value="">Any type</option><option>House</option><option>Apartment</option><option>Farmhouse</option></select>
+    </div>
+    <div>
+      <label for="fBeds">Bedrooms</label>
+      <select id="fBeds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select>
+    </div>
+    <div>
+      <label for="fMax">Max price</label>
+      <select id="fMax"><option value="0">No max</option><option value="3000000">R3.0m</option><option value="6000000">R6.0m</option><option value="12000000">R12m</option></select>
+    </div>
+    <button class="go" type="submit">Search</button>
+  </form>
+</div>
+
+<section id="listings" style="padding-top:56px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Listings</div>
+        <h2 class="serif">Fresh to market</h2>
+      </div>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="listings" id="grid"></div>
+    <div class="none" id="noneMsg">Nothing matches those filters yet — try widening the price or area.</div>
+  </div>
+</section>
+
+<section class="calc-band" id="calc">
+  <div class="wrap calc-grid">
+    <div class="reveal">
+      <div class="eyebrow">Finance</div>
+      <h2 class="serif">What would it cost per month?</h2>
+      <p class="lead">Drag the sliders for an instant bond estimate. Indicative only — our finance desk will pre-qualify you properly in one call.</p>
+    </div>
+    <div class="calc reveal">
+      <div>
+        <label>Property price <output id="oPrice">R4,500,000</output></label>
+        <input type="range" id="rPrice" min="800000" max="20000000" step="100000" value="4500000">
+      </div>
+      <div>
+        <label>Deposit <output id="oDep">10%</output></label>
+        <input type="range" id="rDep" min="0" max="50" step="5" value="10">
+      </div>
+      <div>
+        <label>Term <output id="oTerm">20 years</output></label>
+        <input type="range" id="rTerm" min="5" max="30" step="5" value="20">
+      </div>
+      <div>
+        <label>Interest rate <output id="oRate">11.25%</output></label>
+        <input type="range" id="rRate" min="7" max="16" step="0.25" value="11.25">
+      </div>
+      <div class="result"><span>Estimated repayment</span><b id="oPay">R—</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The team</div>
+        <h2 class="serif">Agents who answer their phones</h2>
+      </div>
+    </div>
+    <div class="agents">
+      <div class="agent reveal">
+        <div class="pic" style="background:linear-gradient(135deg,#c9a227,#8a6d1a)">LM</div>
+        <h3>Lerato Mahlangu</h3><div class="role">Principal · Atlantic Seaboard</div>
+        <div class="stats"><span><b>214</b>sold</span><span><b>12y</b>experience</span><span><b>4.9★</b>rating</span></div>
+      </div>
+      <div class="agent reveal">
+        <div class="pic" style="background:linear-gradient(135deg,#2c3e50,#4a6076)">DvW</div>
+        <h3>Dawie van Wyk</h3><div class="role">Winelands &amp; farms</div>
+        <div class="stats"><span><b>168</b>sold</span><span><b>15y</b>experience</span><span><b>4.8★</b>rating</span></div>
+      </div>
+      <div class="agent reveal">
+        <div class="pic" style="background:linear-gradient(135deg,#2e7d5b,#175a3c)">AP</div>
+        <h3>Anika Pillay</h3><div class="role">City Bowl &amp; rentals</div>
+        <div class="stats"><span><b>301</b>let</span><span><b>9y</b>experience</span><span><b>4.9★</b>rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Haven &amp; Co Properties · Registered with the PPRA (fictional)</span>
+    <div><a href="#listings">Listings</a> · <a href="#calc">Finance</a> · <a href="#agents">Valuations</a></div>
+  </div>
+</footer>
+
+<script>
+  const HOMES = [
+    { price:12500000, name:"Villa on the Ridge", area:"Constantia", type:"House", beds:5, baths:4, m2:620, status:"New", g:["#2c3e50","#5b788f"] },
+    { price:3250000,  name:"The Glasshouse Loft", area:"Woodstock", type:"Apartment", beds:2, baths:2, m2:96,  status:"", g:["#8a6d1a","#c9a227"] },
+    { price:5900000,  name:"Beach Lane 14", area:"Noordhoek", type:"House", beds:4, baths:3, m2:310, status:"New", g:["#175a3c","#2e7d5b"] },
+    { price:2100000,  name:"Pier Place Studio", area:"Sea Point", type:"Apartment", beds:1, baths:1, m2:54,  status:"", g:["#31597a","#6c93b4"] },
+    { price:8750000,  name:"Weltevrede Farmhouse", area:"Stellenbosch", type:"Farmhouse", beds:4, baths:3, m2:480, status:"Under offer", g:["#6d4423","#a3713f"] },
+    { price:4650000,  name:"Oak Row Terrace", area:"Stellenbosch", type:"House", beds:3, baths:2, m2:210, status:"", g:["#3a4a5c","#748ba1"] },
+  ];
+  const fmtR = (n) => "R" + n.toLocaleString("en-ZA");
+
+  const grid = document.getElementById('grid');
+  const favs = new Set(JSON.parse(localStorage.getItem('haven-favs') || '[]'));
+
+  function renderHomes() {
+    const area = document.getElementById('fArea').value;
+    const type = document.getElementById('fType').value;
+    const beds = +document.getElementById('fBeds').value;
+    const max = +document.getElementById('fMax').value || Infinity;
+    const list = HOMES.filter(h =>
+      (!area || h.area === area) && (!type || h.type === type) && h.beds >= beds && h.price <= max);
+
+    grid.innerHTML = list.map((h, i) => `
+      <article class="home reveal in">
+        <div class="visual" style="background:linear-gradient(140deg,${h.g[0]},${h.g[1]})">
+          <span class="status ${h.status === 'New' ? 'new' : ''}" ${h.status ? '' : 'hidden'}>${h.status}</span>
+          <button class="fav ${favs.has(h.name) ? 'on' : ''}" data-name="${h.name}" aria-label="Save ${h.name}" aria-pressed="${favs.has(h.name)}">♥</button>
+        </div>
+        <div class="body">
+          <div class="price">${fmtR(h.price)} <small>· ${h.type}</small></div>
+          <h3>${h.name}</h3>
+          <div class="area">${h.area}, Western Cape</div>
+          <div class="specs"><span><b>${h.beds}</b> bed</span><span><b>${h.baths}</b> bath</span><span><b>${h.m2}</b> m²</span></div>
+        </div>
+      </article>`).join('');
+    document.getElementById('noneMsg').style.display = list.length ? 'none' : 'block';
+    document.getElementById('resultCount').textContent = `${list.length} of ${HOMES.length} properties`;
+  }
+  document.getElementById('filters').addEventListener('submit', (e) => { e.preventDefault(); renderHomes(); });
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.fav');
+    if (!btn) return;
+    const name = btn.dataset.name;
+    favs.has(name) ? favs.delete(name) : favs.add(name);
+    localStorage.setItem('haven-favs', JSON.stringify([...favs]));
+    btn.classList.toggle('on');
+    btn.setAttribute('aria-pressed', btn.classList.contains('on'));
+  });
+  renderHomes();
+
+  // Bond repayment: standard amortization formula.
+  const $ = (id) => document.getElementById(id);
+  function calc() {
+    const price = +$('rPrice').value, depPct = +$('rDep').value;
+    const years = +$('rTerm').value, rate = +$('rRate').value;
+    const principal = price * (1 - depPct / 100);
+    const r = rate / 100 / 12, n = years * 12;
+    const pay = r === 0 ? principal / n : principal * r / (1 - Math.pow(1 + r, -n));
+    $('oPrice').textContent = fmtR(price);
+    $('oDep').textContent = depPct + "%";
+    $('oTerm').textContent = years + " years";
+    $('oRate').textContent = rate.toFixed(2) + "%";
+    $('oPay').textContent = fmtR(Math.round(pay)) + "/mo";
+  }
+  ['rPrice','rDep','rTerm','rRate'].forEach(id => $(id).addEventListener('input', calc));
+  calc();
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
