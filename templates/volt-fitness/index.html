@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOLT — Train Loud</title>
+<meta name="description" content="VOLT is a 24/7 strength and conditioning gym. Train loud.">
+<style>
+  :root{
+    --black:#0a0a0f; --panel:#12121a; --line:#23232f; --volt:#c8ff2e; --volt-dim:#8fb821;
+    --text:#f2f2ee; --dim:#8d8d99; --mag:#ff3d81;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .cond{font-stretch:condensed;letter-spacing:-.02em}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .logo{font-size:24px;font-weight:900;font-style:italic;letter-spacing:-.03em}
+  .logo span{color:var(--volt)}
+  .nav-links{display:flex;gap:24px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}
+  .nav-links a:hover{color:var(--volt)}
+  .join{background:var(--volt);color:var(--black);padding:10px 22px;font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:.06em;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:.15s}
+  .join:hover{background:#fff}
+
+  .hero{padding:90px 0 70px;position:relative;background:
+    radial-gradient(600px 340px at 85% 0,rgba(200,255,46,.13),transparent 65%),
+    repeating-linear-gradient(-45deg,transparent 0 34px,rgba(255,255,255,.022) 34px 36px)}
+  h1{font-size:clamp(56px,12vw,150px);line-height:.9;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.04em}
+  h1 .v{color:var(--volt)}
+  h1 .stroke{color:transparent;-webkit-text-stroke:2px var(--text)}
+  .hero p{max-width:440px;color:var(--dim);font-size:17px;margin-top:24px}
+  .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+  .counters{display:flex;gap:34px;margin-top:30px}
+  .counter b{display:block;font-size:38px;font-weight:900;font-style:italic;color:var(--volt)}
+  .counter span{font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--dim)}
+
+  section{padding:80px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:38px;gap:16px;flex-wrap:wrap}
+  .eyebrow{color:var(--volt);font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:800}
+  h2{font-size:clamp(30px,5vw,52px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.03em;margin-top:8px}
+
+  .day-tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .day-tab{background:none;border:1px solid var(--line);color:var(--dim);padding:9px 18px;font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:.15s}
+  .day-tab.active{background:var(--volt);border-color:var(--volt);color:var(--black)}
+  .sched{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+  .slot{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--volt);padding:18px 20px;transition:transform .15s}
+  .slot:hover{transform:translateX(4px)}
+  .slot.hard{border-left-color:var(--mag)}
+  .slot .time{font-size:12px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  .slot h3{font-size:19px;font-weight:900;font-style:italic;text-transform:uppercase;margin:6px 0 4px}
+  .slot .coach{font-size:13px;color:var(--dim)}
+  .slot .level{float:right;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--line);color:var(--volt)}
+  .slot.hard .level{color:var(--mag)}
+
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .tier{background:var(--panel);border:1px solid var(--line);padding:30px;position:relative;display:flex;flex-direction:column}
+  .tier.hot{border-color:var(--volt);box-shadow:0 0 44px rgba(200,255,46,.12)}
+  .tier .flag{position:absolute;top:-11px;right:20px;background:var(--volt);color:var(--black);font-size:10.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px}
+  .tier h3{font-size:15px;text-transform:uppercase;letter-spacing:.14em;color:var(--dim)}
+  .tier .price{font-size:46px;font-weight:900;font-style:italic;margin:12px 0 4px}
+  .tier .price small{font-size:15px;color:var(--dim);font-style:normal;font-weight:400}
+  .tier ul{list-style:none;margin:20px 0 26px;flex:1;display:flex;flex-direction:column;gap:10px;font-size:14.5px;color:var(--dim)}
+  .tier li::before{content:"▸";color:var(--volt);margin-right:10px;font-weight:900}
+  .tier .cta{display:block;text-align:center;border:2px solid var(--volt);color:var(--volt);padding:13px;font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:.08em;transition:.15s}
+  .tier .cta:hover,.tier.hot .cta{background:var(--volt);color:var(--black)}
+
+  .strip{background:var(--volt);color:var(--black);overflow:hidden;padding:14px 0}
+  .strip-track{display:flex;gap:44px;white-space:nowrap;width:max-content;animation:mv 18s linear infinite;font-weight:900;font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:.02em}
+  .strip span::after{content:"⚡";margin-left:44px}
+  @keyframes mv{to{transform:translateX(-50%)}}
+
+  footer{padding:38px 0;color:var(--dim);font-size:13.5px;border-top:1px solid var(--line);display:block}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .foot a:hover{color:var(--volt)}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:880px){
+    .sched,.tiers{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .counters{flex-wrap:wrap;gap:22px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#">VOLT<span>/</span></a>
+    <div class="nav-links">
+      <a href="#classes">Classes</a><a href="#plans">Membership</a><a href="#plans">Coaches</a>
+    </div>
+    <a class="join" href="#plans">Join now</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-row">
+      <div>
+        <h1>Train<br><span class="stroke">Loud</span><span class="v">.</span></h1>
+        <p>A 24/7 strength &amp; conditioning gym in the middle of the city. Chalk on the floor, plates in the air, zero mirrors-for-selfies energy.</p>
+      </div>
+      <div class="counters" aria-label="Gym stats">
+        <div class="counter"><b data-target="1250">0</b><span>Active members</span></div>
+        <div class="counter"><b data-target="38">0</b><span>Classes / week</span></div>
+        <div class="counter"><b data-target="14">0</b><span>Coaches</span></div>
+        <div class="counter"><b data-target="24">0</b><span>Hours open</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="strip" aria-hidden="true">
+  <div class="strip-track" id="strip">
+    <span>Strength</span><span>Conditioning</span><span>Olympic lifting</span><span>Mobility</span><span>Open gym 24/7</span>
+  </div>
+</div>
+
+<section id="classes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">This week</div>
+        <h2>Class schedule</h2>
+      </div>
+      <div class="day-tabs" id="dayTabs" role="tablist"></div>
+    </div>
+    <div class="sched" id="sched"></div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Membership</div>
+        <h2>Pick your poison</h2>
+      </div>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <h3>Off-peak</h3>
+        <div class="price">R449<small>/mo</small></div>
+        <ul><li>Open gym 09:00–16:00</li><li>Mobility classes</li><li>Locker access</li></ul>
+        <a class="cta" href="#">Start off-peak</a>
+      </div>
+      <div class="tier hot reveal">
+        <span class="flag">Most lifted</span>
+        <h3>All-hours</h3>
+        <div class="price">R749<small>/mo</small></div>
+        <ul><li>24/7 access, every day</li><li>All classes included</li><li>Programming app</li><li>Guest pass ×2 /mo</li></ul>
+        <a class="cta" href="#">Go all-hours</a>
+      </div>
+      <div class="tier reveal">
+        <h3>Coached</h3>
+        <div class="price">R1,490<small>/mo</small></div>
+        <ul><li>Everything in All-hours</li><li>Personal programming</li><li>Monthly 1-on-1 review</li><li>Comp-prep support</li></ul>
+        <a class="cta" href="#">Get coached</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 VOLT Strength Co. · 44 Fox Street, Johannesburg</span>
+    <div><a href="#classes">Schedule</a> · <a href="#plans">Membership</a> · <a href="#">Instagram</a></div>
+  </div>
+</footer>
+
+<script>
+  const SCHEDULE = {
+    Mon: [["06:00","Strength Foundations","Coach Zinhle","Open","norm"],["12:30","Lunch Burner","Coach Dre","All levels","hard"],["17:30","Olympic Lifting","Coach Petrus","Intermediate","norm"]],
+    Tue: [["06:00","Engine Room (Conditioning)","Coach Dre","All levels","hard"],["12:30","Mobility Reset","Coach Ayesha","Open","norm"],["18:00","Powerbuilding","Coach Zinhle","Intermediate","norm"]],
+    Wed: [["06:00","Strength Foundations","Coach Petrus","Open","norm"],["12:30","Lunch Burner","Coach Dre","All levels","hard"],["17:30","Barbell Club","Coach Petrus","Advanced","hard"]],
+    Thu: [["06:00","Engine Room (Conditioning)","Coach Ayesha","All levels","hard"],["12:30","Mobility Reset","Coach Ayesha","Open","norm"],["18:00","Strongman Saturday Prep","Coach Big John","Advanced","hard"]],
+    Fri: [["06:00","Total Body Strength","Coach Zinhle","Open","norm"],["12:30","Lunch Burner","Coach Dre","All levels","hard"],["16:30","Community WOD + braai","Everyone","Open","norm"]],
+    Sat: [["08:00","Strongman Yard Day","Coach Big John","Advanced","hard"],["09:30","Beginners' Barbell","Coach Zinhle","Beginner","norm"]],
+    Sun: [["09:00","Long Engine (90 min)","Coach Dre","All levels","hard"],["10:45","Yin Mobility","Coach Ayesha","Open","norm"]],
+  };
+  const days = Object.keys(SCHEDULE);
+  const tabs = document.getElementById('dayTabs');
+  const sched = document.getElementById('sched');
+
+  tabs.innerHTML = days.map((d, i) =>
+    `<button class="day-tab ${i === 0 ? 'active' : ''}" data-day="${d}" role="tab" aria-selected="${i === 0}">${d}</button>`).join('');
+
+  function renderDay(day) {
+    sched.innerHTML = SCHEDULE[day].map(([time, name, coach, level, kind]) => `
+      <div class="slot ${kind === 'hard' ? 'hard' : ''}">
+        <span class="level">${level}</span>
+        <div class="time">${time}</div>
+        <h3>${name}</h3>
+        <div class="coach">${coach}</div>
+      </div>`).join('');
+  }
+  tabs.addEventListener('click', (e) => {
+    const tab = e.target.closest('.day-tab');
+    if (!tab) return;
+    tabs.querySelectorAll('.day-tab').forEach(t => {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-selected', String(t === tab));
+    });
+    renderDay(tab.dataset.day);
+  });
+  renderDay('Mon');
+
+  // Animated stat counters (ease-out over ~1.2s once visible).
+  const counterIo = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (!en.isIntersecting) continue;
+      counterIo.unobserve(en.target);
+      const el = en.target, target = +el.dataset.target, t0 = performance.now();
+      (function step(t) {
+        const p = Math.min((t - t0) / 1200, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.counter b').forEach(el => counterIo.observe(el));
+
+  // Seamless marquee strip.
+  const strip = document.getElementById('strip');
+  strip.innerHTML += strip.innerHTML;
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

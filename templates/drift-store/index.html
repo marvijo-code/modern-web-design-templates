@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drift — Everyday objects, considered</title>
+<meta name="description" content="Drift sells considered everyday objects: ceramics, textiles, and tools for the home.">
+<style>
+  :root{
+    --bg:#f4f2ee; --card:#ffffff; --ink:#20201c; --soft:#7c7a72; --line:#e2ded6;
+    --clay:#b46a4a; --sagegr:#7d8b74;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:Georgia,'Times New Roman',serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  .promo{background:var(--ink);color:var(--bg);text-align:center;font-size:12.5px;letter-spacing:.1em;padding:9px;text-transform:uppercase}
+  nav{position:sticky;top:0;z-index:40;background:rgba(244,242,238,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .logo{font-size:22px;letter-spacing:.02em}
+  .nav-links{display:flex;gap:22px;font-size:13.5px;color:var(--soft)}
+  .nav-links a:hover{color:var(--ink)}
+  .cart-btn{position:relative;background:none;border:1px solid var(--line);border-radius:999px;padding:9px 18px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink)}
+  .cart-btn:hover{border-color:var(--ink)}
+  .cart-count{position:absolute;top:-7px;right:-7px;background:var(--clay);color:#fff;font-size:11px;font-weight:700;min-width:19px;height:19px;border-radius:999px;display:grid;place-items:center;padding:0 5px}
+
+  .hero{padding:72px 0 56px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(34px,5vw,54px);font-weight:400;line-height:1.15}
+  .hero h1 em{color:var(--clay)}
+  .hero p{color:var(--soft);margin:16px 0 26px;max-width:420px}
+  .hero .shop-btn{display:inline-block;background:var(--ink);color:var(--bg);padding:13px 28px;border-radius:999px;font-size:14px;transition:.2s}
+  .hero .shop-btn:hover{background:var(--clay)}
+  .hero-art{aspect-ratio:4/3;border-radius:18px;background:linear-gradient(150deg,#d9c4b3,#b46a4a 60%,#8a4a33);position:relative;overflow:hidden}
+  .hero-art::after{content:"";position:absolute;inset:auto -10% -35% -10%;height:70%;border-radius:50% 50% 0 0;background:#f4f2ee33}
+  .hero-art .vase{position:absolute;bottom:14%;left:50%;transform:translateX(-50%);width:96px;height:150px;background:#f4f2ee;border-radius:44px 44px 18px 18px}
+  .hero-art .vase::before{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:38px;height:22px;background:#f4f2ee;border-radius:8px 8px 0 0}
+
+  section{padding:64px 0}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:26px;gap:16px;flex-wrap:wrap}
+  h2{font-size:clamp(24px,3.4vw,34px);font-weight:400}
+  .cat-chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:none;color:var(--soft);font-size:13px;padding:8px 18px;border-radius:999px;cursor:pointer;transition:.15s}
+  .chip.active{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+  .products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .product{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
+  .product:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(32,32,28,.08)}
+  .product .ph{aspect-ratio:1;display:grid;place-items:center;font-size:44px}
+  .product .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+  .product h3{font-size:14.5px;font-weight:600}
+  .product .cat{font-size:12px;color:var(--soft)}
+  .product .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px}
+  .product .price{font-size:15px;font-weight:700}
+  .add{background:var(--ink);color:var(--bg);border:none;border-radius:999px;font-size:12.5px;padding:8px 16px;cursor:pointer;transition:.15s;font-family:inherit}
+  .add:hover{background:var(--clay)}
+  .add.added{background:var(--sagegr)}
+
+  .values{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--line);padding-top:44px}
+  .value h3{font-size:16px;font-weight:600;margin-bottom:6px}
+  .value h3 span{margin-right:8px}
+  .value p{color:var(--soft);font-size:14px}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .drawer-veil{position:fixed;inset:0;background:rgba(32,32,28,.4);opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:var(--card);z-index:61;transform:translateX(105%);transition:transform .28s ease;display:flex;flex-direction:column;box-shadow:-18px 0 44px rgba(32,32,28,.14)}
+  body.cart-open .drawer{transform:none}
+  body.cart-open .drawer-veil{opacity:1;pointer-events:auto}
+  .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+  .drawer-head h3{font-size:17px;font-weight:600}
+  .drawer-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--soft)}
+  .drawer-items{flex:1;overflow-y:auto;padding:10px 22px}
+  .line{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .line .thumb{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:20px}
+  .line h4{font-size:13.5px;font-weight:600}
+  .line .qty{display:flex;align-items:center;gap:8px;margin-top:5px}
+  .qty button{width:22px;height:22px;border:1px solid var(--line);background:none;border-radius:6px;cursor:pointer;font-size:13px;line-height:1;color:var(--ink)}
+  .qty span{font-size:13px;min-width:16px;text-align:center}
+  .line .amt{font-size:13.5px;font-weight:700}
+  .drawer-empty{text-align:center;color:var(--soft);padding:48px 20px;font-style:italic}
+  .drawer-foot{border-top:1px solid var(--line);padding:18px 22px}
+  .totals{display:flex;justify-content:space-between;font-size:15px;margin-bottom:14px}
+  .totals b{font-size:17px}
+  .checkout{width:100%;background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:14px;font-size:14.5px;cursor:pointer;font-family:inherit;transition:.2s}
+  .checkout:hover{background:var(--clay)}
+
+  @media(max-width:920px){.products{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-art{order:-1}.values{grid-template-columns:1fr}.nav-links{display:none}}
+  @media(max-width:520px){.products{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="promo">Free shipping in SA over R850 · Ships in recycled packaging</div>
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo serif" href="#">Drift</a>
+    <div class="nav-links">
+      <a href="#shop">Shop</a><a href="#values">Our promise</a><a href="#values">Journal</a>
+    </div>
+    <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+      Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <div>
+    <h1 class="serif">Everyday objects, <em>considered.</em></h1>
+    <p>Ceramics, textiles and tools for the home — made slowly by small workshops, priced honestly, built to be repaired.</p>
+    <a class="shop-btn" href="#shop">Shop the collection</a>
+  </div>
+  <div class="hero-art" role="img" aria-label="Illustration of a cream vase against a clay backdrop">
+    <div class="vase"></div>
+  </div>
+</header>
+
+<section id="shop" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="serif">The collection</h2>
+      <div class="cat-chips" id="chips">
+        <button class="chip active" data-cat="all">All</button>
+        <button class="chip" data-cat="ceramics">Ceramics</button>
+        <button class="chip" data-cat="textiles">Textiles</button>
+        <button class="chip" data-cat="tools">Tools</button>
+      </div>
+    </div>
+    <div class="products" id="products"></div>
+  </div>
+</section>
+
+<section id="values" style="padding-top:8px">
+  <div class="wrap values">
+    <div class="value"><h3><span>♻</span>Repair first</h3><p>Every product ships with a repair guide, and our workshop fixes what we sell — for life, at cost.</p></div>
+    <div class="value"><h3><span>✦</span>Small batches</h3><p>We commission runs of 200 or fewer from twelve workshops we visit ourselves.</p></div>
+    <div class="value"><h3><span>⚖</span>Honest pricing</h3><p>Cost breakdowns on every product page. You'll always know what the maker was paid.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Drift Goods (Pty) Ltd · Woodstock, Cape Town</span>
+    <span>Shipping · Returns · Care guides</span>
+  </div>
+</footer>
+
+<div class="drawer-veil" id="veil"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h3>Your cart</h3>
+    <button class="drawer-close" id="drawerClose" aria-label="Close cart">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="totals"><span>Subtotal</span><b id="subtotal">R0</b></div>
+    <button class="checkout" id="checkoutBtn">Checkout</button>
+  </div>
+</aside>
+
+<script>
+  const PRODUCTS = [
+    { id:"vase-ekhaya",  name:"Ekhaya Vase",          cat:"ceramics", price:640, emoji:"🏺", bg:"#e8d5c4" },
+    { id:"mug-morning",  name:"Morning Mug (set of 2)", cat:"ceramics", price:420, emoji:"☕", bg:"#ded4c2" },
+    { id:"bowl-karoo",   name:"Karoo Serving Bowl",   cat:"ceramics", price:760, emoji:"🥣", bg:"#e3d0bf" },
+    { id:"throw-mohair", name:"Mohair Throw",         cat:"textiles", price:1850, emoji:"🧣", bg:"#d9d3c6" },
+    { id:"apron-canvas", name:"Waxed Canvas Apron",   cat:"textiles", price:890, emoji:"🦺", bg:"#cfd2c4" },
+    { id:"napkins-linen",name:"Linen Napkins (×4)",   cat:"textiles", price:520, emoji:"🧻", bg:"#e0dccf" },
+    { id:"knife-paring", name:"Carbon Paring Knife",  cat:"tools",    price:980, emoji:"🔪", bg:"#d5d5d0" },
+    { id:"broom-hand",   name:"Hand-bound Broom",     cat:"tools",    price:340, emoji:"🧹", bg:"#ddd6c3" },
+  ];
+  const fmt = (n) => "R" + n.toLocaleString("en-ZA");
+  const cart = new Map(JSON.parse(localStorage.getItem('drift-cart') || '[]'));
+
+  const grid = document.getElementById('products');
+  function renderProducts(cat) {
+    grid.innerHTML = PRODUCTS.filter(p => cat === 'all' || p.cat === cat).map(p => `
+      <article class="product">
+        <div class="ph" style="background:${p.bg}">${p.emoji}</div>
+        <div class="body">
+          <h3>${p.name}</h3><span class="cat">${p.cat}</span>
+          <div class="row">
+            <span class="price">${fmt(p.price)}</span>
+            <button class="add" data-id="${p.id}">Add</button>
+          </div>
+        </div>
+      </article>`).join('');
+  }
+  document.getElementById('chips').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
+    renderProducts(chip.dataset.cat);
+  });
+
+  function persist() { localStorage.setItem('drift-cart', JSON.stringify([...cart])); }
+
+  function renderCart() {
+    const items = [...cart.entries()];
+    const box = document.getElementById('drawerItems');
+    if (!items.length) {
+      box.innerHTML = '<div class="drawer-empty">Your cart is empty — the vases are waiting.</div>';
+    } else {
+      box.innerHTML = items.map(([id, qty]) => {
+        const p = PRODUCTS.find(x => x.id === id);
+        return `<div class="line">
+          <div class="thumb" style="background:${p.bg}">${p.emoji}</div>
+          <div><h4>${p.name}</h4>
+            <div class="qty">
+              <button data-id="${id}" data-d="-1" aria-label="Decrease quantity">−</button>
+              <span>${qty}</span>
+              <button data-id="${id}" data-d="1" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <span class="amt">${fmt(p.price * qty)}</span>
+        </div>`;
+      }).join('');
+    }
+    const total = items.reduce((s, [id, q]) => s + PRODUCTS.find(p => p.id === id).price * q, 0);
+    const count = items.reduce((s, [, q]) => s + q, 0);
+    document.getElementById('subtotal').textContent = fmt(total);
+    document.getElementById('cartCount').textContent = count;
+  }
+
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.add');
+    if (!btn) return;
+    cart.set(btn.dataset.id, (cart.get(btn.dataset.id) || 0) + 1);
+    persist(); renderCart();
+    btn.textContent = 'Added ✓'; btn.classList.add('added');
+    setTimeout(() => { btn.textContent = 'Add'; btn.classList.remove('added'); }, 900);
+  });
+
+  document.getElementById('drawerItems').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-d]');
+    if (!btn) return;
+    const id = btn.dataset.id, next = (cart.get(id) || 0) + (+btn.dataset.d);
+    next <= 0 ? cart.delete(id) : cart.set(id, next);
+    persist(); renderCart();
+  });
+
+  const open = (on) => document.body.classList.toggle('cart-open', on);
+  document.getElementById('cartBtn').addEventListener('click', () => open(true));
+  document.getElementById('drawerClose').addEventListener('click', () => open(false));
+  document.getElementById('veil').addEventListener('click', () => open(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') open(false); });
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    if (cart.size === 0) return;
+    alert('This is a template — checkout would hand off to your payment provider here.');
+  });
+
+  renderProducts('all');
+  renderCart();
+</script>
+</body>
+</html>
