@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORGE® — Creative Agency</title>
+<meta name="description" content="FORGE is a creative agency for brands that refuse to whisper.">
+<style>
+  :root{ --black:#111111; --white:#f5f4f0; --yellow:#ffe600; --gray:#8a8a85; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--white);color:var(--black);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--yellow)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:3px solid var(--black);position:sticky;top:0;background:var(--white);z-index:50}
+  .logo{font-weight:900;font-size:22px;letter-spacing:-.04em}
+  .logo sup{font-size:10px}
+  .nav-right{display:flex;gap:24px;align-items:center;font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .nav-right a{border-bottom:3px solid transparent;padding-bottom:2px}
+  .nav-right a:hover{border-color:var(--yellow)}
+  .clock{font-size:12px;color:var(--gray)}
+
+  .hero{padding:70px 28px 60px;border-bottom:3px solid var(--black)}
+  h1{font-size:clamp(52px,11.5vw,168px);line-height:.92;letter-spacing:-.045em;font-weight:900;text-transform:uppercase}
+  h1 .outline{color:transparent;-webkit-text-stroke:2.5px var(--black)}
+  h1 .hl{background:var(--yellow);padding:0 .08em}
+  .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:44px;gap:24px;flex-wrap:wrap}
+  .hero-foot p{max-width:420px;font-size:17px}
+  .hero-foot .scroll{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gray)}
+
+  .ticker{background:var(--black);color:var(--yellow);overflow:hidden;padding:13px 0;border-bottom:3px solid var(--black)}
+  .ticker-track{display:flex;gap:48px;white-space:nowrap;width:max-content;animation:tick 22s linear infinite;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:14px}
+  .ticker span::after{content:"◆";margin-left:48px;color:var(--white)}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  section{border-bottom:3px solid var(--black)}
+  .sec-label{display:flex;justify-content:space-between;padding:16px 28px;border-bottom:3px solid var(--black);font-size:13px;text-transform:uppercase;letter-spacing:.14em;font-weight:800}
+
+  .project{display:grid;grid-template-columns:110px 1fr auto;gap:24px;align-items:center;padding:34px 28px;border-bottom:3px solid var(--black);position:relative;transition:background .12s,color .12s;cursor:pointer}
+  .project:last-child{border-bottom:none}
+  .project:hover{background:var(--black);color:var(--white)}
+  .project .num{font-size:15px;font-weight:800}
+  .project h3{font-size:clamp(26px,4.6vw,54px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;line-height:1}
+  .project .tags{font-size:12px;text-transform:uppercase;letter-spacing:.1em;text-align:right;color:var(--gray)}
+  .project:hover .tags{color:var(--yellow)}
+
+  .services-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .svc{padding:34px 26px;border-right:3px solid var(--black);min-height:230px;display:flex;flex-direction:column;transition:background .12s}
+  .svc:last-child{border-right:none}
+  .svc:hover{background:var(--yellow)}
+  .svc .idx{font-size:13px;font-weight:800;margin-bottom:auto}
+  .svc h3{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin:18px 0 10px}
+  .svc p{font-size:14px;color:var(--gray)}
+  .svc:hover p{color:var(--black)}
+
+  .manifesto{padding:80px 28px;background:var(--black);color:var(--white)}
+  .manifesto p{font-size:clamp(24px,4.5vw,52px);font-weight:900;letter-spacing:-.03em;line-height:1.12;text-transform:uppercase;max-width:1050px}
+  .manifesto .y{color:var(--yellow)}
+  .manifesto .dim{color:#555}
+
+  .cta{display:grid;grid-template-columns:1fr auto;align-items:center;padding:56px 28px;gap:24px}
+  .cta h2{font-size:clamp(34px,7vw,84px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.95}
+  .cta a{display:inline-block;background:var(--black);color:var(--yellow);padding:22px 40px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:16px;border:3px solid var(--black);transition:.12s}
+  .cta a:hover{background:var(--yellow);color:var(--black)}
+
+  footer{display:flex;justify-content:space-between;padding:20px 28px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);flex-wrap:wrap;gap:10px}
+
+  @media(max-width:900px){
+    .services-grid{grid-template-columns:1fr 1fr}
+    .svc:nth-child(2){border-right:none}
+    .svc:nth-child(-n+2){border-bottom:3px solid var(--black)}
+    .project{grid-template-columns:60px 1fr}
+    .project .tags{display:none}
+    .cta{grid-template-columns:1fr}
+    .nav-right .hide-sm{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">FORGE<sup>®</sup></a>
+  <div class="nav-right">
+    <a href="#work" class="hide-sm">Work</a>
+    <a href="#services" class="hide-sm">Services</a>
+    <a href="#contact">Contact</a>
+    <span class="clock mono" id="clock">--:--:--</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>We make<br><span class="outline">brands</span> that<br><span class="hl">refuse</span> to whisper</h1>
+  <div class="hero-foot">
+    <p>FORGE is an eleven-person creative agency in Johannesburg. Strategy, identity and campaigns for companies with the nerve to look different.</p>
+    <span class="scroll">Scroll ↓ Est. 2017 — JHB / AMS</span>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker">
+    <span>Brand strategy</span><span>Identity systems</span><span>Campaigns</span><span>Motion</span><span>Naming</span><span>Packaging</span>
+  </div>
+</div>
+
+<section id="work">
+  <div class="sec-label"><span>Selected work</span><span>2022 → 2026</span></div>
+  <a class="project" href="#contact">
+    <span class="num mono">/01</span><h3>Bakone Brewing Co.</h3><span class="tags">Identity · Packaging · 2026</span>
+  </a>
+  <a class="project" href="#contact">
+    <span class="num mono">/02</span><h3>Transit District</h3><span class="tags">Campaign · OOH · 2025</span>
+  </a>
+  <a class="project" href="#contact">
+    <span class="num mono">/03</span><h3>Nomvula Athletics</h3><span class="tags">Naming · Identity · 2025</span>
+  </a>
+  <a class="project" href="#contact">
+    <span class="num mono">/04</span><h3>Static Radio</h3><span class="tags">Brand world · Motion · 2024</span>
+  </a>
+  <a class="project" href="#contact">
+    <span class="num mono">/05</span><h3>Halfway Hotels</h3><span class="tags">Strategy · Identity · 2022</span>
+  </a>
+</section>
+
+<section id="services">
+  <div class="sec-label"><span>What we do</span><span>No retainers under R50k</span></div>
+  <div class="services-grid">
+    <div class="svc"><span class="idx mono">A.</span><h3>Strategy</h3><p>Positioning, audience truth, and the one sentence your brand lives or dies by.</p></div>
+    <div class="svc"><span class="idx mono">B.</span><h3>Identity</h3><p>Logotype, type system, colour, voice — built as a kit your team can wield without us.</p></div>
+    <div class="svc"><span class="idx mono">C.</span><h3>Campaigns</h3><p>Ideas loud enough for out-of-home and sharp enough for a feed. Concept to shipping.</p></div>
+    <div class="svc"><span class="idx mono">D.</span><h3>Motion</h3><p>Title sequences, brand films, kinetic type. If it moves, it should mean something.</p></div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <p><span class="dim">Most branding is</span> wallpaper. <span class="dim">We make</span> <span class="y">flags</span> <span class="dim">—</span> things people rally to, argue about, and remember.</p>
+</section>
+
+<section class="cta" id="contact">
+  <h2>Got a brief?<br>Bring it.</h2>
+  <a href="mailto:new@forge.agency">new@forge.agency ↗</a>
+</section>
+
+<footer>
+  <span>© 2026 FORGE Creative (Pty) Ltd</span>
+  <span>Johannesburg — Amsterdam</span>
+  <span>Instagram / Behance / LinkedIn</span>
+</footer>
+
+<script>
+  // Duplicate ticker for seamless loop.
+  const ticker = document.getElementById('ticker');
+  ticker.innerHTML += ticker.innerHTML;
+
+  // Live studio clock (SAST, UTC+2).
+  const clock = document.getElementById('clock');
+  function tick() {
+    const now = new Date(Date.now() + (2 * 60 + new Date().getTimezoneOffset()) * 60000);
+    clock.textContent = 'JHB ' + [now.getHours(), now.getMinutes(), now.getSeconds()]
+      .map(n => String(n).padStart(2, '0')).join(':');
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
