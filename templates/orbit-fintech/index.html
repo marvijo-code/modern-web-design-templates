@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit — Money in motion</title>
+<meta name="description" content="Orbit is a multi-currency account for people whose money crosses borders.">
+<style>
+  :root{
+    --space:#070b1a; --panel:#0d1430; --panel2:#111a3e; --line:#1e2a55;
+    --text:#eaf0ff; --dim:#8c9ac2; --cyan:#6ee7ff; --violet:#9d7bff; --green:#4ade80; --red:#fb7185;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--space);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(7,11,26,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:10px}
+  .logo i{width:22px;height:22px;border-radius:50%;border:2px solid var(--cyan);position:relative;display:inline-block}
+  .logo i::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:var(--violet);top:-4px;left:12px}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--dim)}
+  .nav-links a:hover{color:var(--text)}
+  .btn{display:inline-block;padding:11px 22px;border-radius:10px;font-weight:600;font-size:14px;border:1px solid var(--line);transition:.2s;background:none;color:var(--text);cursor:pointer}
+  .btn:hover{border-color:var(--cyan)}
+  .btn.glow{background:linear-gradient(120deg,var(--cyan),var(--violet));color:#070b1a;border:none;box-shadow:0 8px 32px rgba(110,231,255,.28)}
+  .btn.glow:hover{box-shadow:0 12px 40px rgba(110,231,255,.4);transform:translateY(-1px)}
+
+  .hero{padding:100px 0 80px;position:relative;text-align:center}
+  .orbit-bg{position:absolute;inset:0;overflow:clip;pointer-events:none}
+  .ring{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);border:1px solid var(--line);border-radius:50%}
+  .r1{width:520px;height:520px}
+  .r2{width:780px;height:780px;opacity:.7}
+  .r3{width:1060px;height:1060px;opacity:.4}
+  .sat{position:absolute;width:10px;height:10px;border-radius:50%}
+  .orb{position:absolute;left:50%;top:46%;width:0;height:0;animation:spin linear infinite}
+  .orb1{animation-duration:14s}
+  .orb2{animation-duration:26s;animation-direction:reverse}
+  .orb3{animation-duration:40s}
+  .orb1 .sat{background:var(--cyan);transform:translate(-50%,-50%) translateX(260px);box-shadow:0 0 14px var(--cyan)}
+  .orb2 .sat{background:var(--violet);transform:translate(-50%,-50%) translateX(390px);box-shadow:0 0 14px var(--violet)}
+  .orb3 .sat{background:var(--green);transform:translate(-50%,-50%) translateX(530px);box-shadow:0 0 12px var(--green)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-inner{position:relative;z-index:2}
+  .pill{display:inline-block;font-size:12.5px;color:var(--cyan);border:1px solid var(--line);background:rgba(13,20,48,.7);padding:7px 16px;border-radius:999px;margin-bottom:24px}
+  h1{font-size:clamp(38px,6.4vw,72px);line-height:1.04;letter-spacing:-.03em;font-weight:800;max-width:760px;margin:0 auto}
+  h1 .grad{background:linear-gradient(92deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--dim);font-size:18px;max-width:540px;margin:20px auto 32px}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  .ticker{border-block:1px solid var(--line);background:rgba(13,20,48,.5);overflow:hidden;padding:12px 0;margin-top:70px}
+  .ticker-track{display:flex;gap:44px;white-space:nowrap;width:max-content;animation:tk 30s linear infinite;font-size:13.5px}
+  .ticker b{color:var(--text);font-weight:600}
+  .ticker .up{color:var(--green)} .ticker .down{color:var(--red)}
+  @keyframes tk{to{transform:translateX(-50%)}}
+
+  section{padding:88px 0}
+  .sec-head{text-align:center;max-width:600px;margin:0 auto 52px}
+  .eyebrow{color:var(--violet);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+  h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.02em;margin:12px 0 12px}
+  .sec-head p{color:var(--dim)}
+
+  .converter{max-width:520px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+  .conv-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .conv-row+.conv-row{margin-top:0}
+  .conv-row label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .conv-row input{background:none;border:none;color:var(--text);font-size:26px;font-weight:700;width:100%;font-family:inherit;outline:none}
+  .conv-row select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;font-weight:600}
+  .swap{display:grid;place-items:center;margin:10px auto;width:38px;height:38px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--cyan);cursor:pointer;font-size:16px;transition:.2s}
+  .swap:hover{border-color:var(--cyan);transform:rotate(180deg)}
+  .rate-line{text-align:center;color:var(--dim);font-size:13.5px;margin-top:16px}
+  .rate-line b{color:var(--cyan)}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cardf{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;transition:.2s}
+  .cardf:hover{border-color:var(--violet);transform:translateY(-3px)}
+  .cardf .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:linear-gradient(135deg,rgba(110,231,255,.18),rgba(157,123,255,.18));margin-bottom:16px}
+  .cardf h3{font-size:17.5px;margin-bottom:8px}
+  .cardf p{color:var(--dim);font-size:14.5px}
+
+  .security{background:linear-gradient(150deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:24px;padding:52px 44px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .security h2{margin-top:8px}
+  .security p{color:var(--dim);margin-top:12px}
+  .sec-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+  .sec-list li{display:flex;gap:14px;align-items:flex-start;background:rgba(7,11,26,.5);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14.5px}
+  .sec-list .tick{color:var(--green);font-weight:800}
+  .sec-list b{display:block}
+  .sec-list span{color:var(--dim);font-size:13.5px}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--dim);font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .foot a:hover{color:var(--text)}
+  .disclaimer{margin-top:14px;font-size:12px;color:#5b6890;max-width:720px}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:880px){
+    .grid3{grid-template-columns:1fr}
+    .security{grid-template-columns:1fr;padding:36px 26px}
+    .nav-links{display:none}
+    .r2,.r3,.orb2,.orb3{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#"><i></i>Orbit</a>
+    <div class="nav-links">
+      <a href="#convert">Exchange</a><a href="#features">Features</a><a href="#security">Security</a>
+    </div>
+    <div style="display:flex;gap:10px">
+      <a class="btn" href="#security">Sign in</a>
+      <a class="btn glow" href="#convert">Get the app</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="orbit-bg" aria-hidden="true">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="orb orb1"><span class="sat"></span></div>
+    <div class="orb orb2"><span class="sat"></span></div>
+    <div class="orb orb3"><span class="sat"></span></div>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="pill">🛰 Now supporting 34 currencies</span>
+    <h1>Money that moves at the <span class="grad">speed of you</span></h1>
+    <p>One account, thirty-four currencies, mid-market rates. Orbit is built for people whose life doesn't stop at a border.</p>
+    <div class="hero-cta">
+      <a class="btn glow" href="#convert">Open an account</a>
+      <a class="btn" href="#features">See features</a>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track mono" id="ticker">
+      <span><b>USD/ZAR</b> 17.42 <span class="up">▲0.3%</span></span>
+      <span><b>EUR/USD</b> 1.094 <span class="down">▼0.1%</span></span>
+      <span><b>GBP/ZAR</b> 22.18 <span class="up">▲0.5%</span></span>
+      <span><b>USD/JPY</b> 148.2 <span class="up">▲0.2%</span></span>
+      <span><b>EUR/ZAR</b> 19.06 <span class="down">▼0.2%</span></span>
+      <span><b>AUD/USD</b> 0.671 <span class="up">▲0.1%</span></span>
+    </div>
+  </div>
+</header>
+
+<section id="convert" style="padding-top:70px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Live exchange</div>
+      <h2>Try the mid-market rate</h2>
+      <p>No spread, no "weekend fee", no asterisks. This demo uses indicative rates.</p>
+    </div>
+    <div class="converter reveal">
+      <div class="conv-row">
+        <div>
+          <label for="amtFrom">You send</label>
+          <input id="amtFrom" class="mono" inputmode="decimal" value="1000">
+        </div>
+        <select id="curFrom" aria-label="From currency">
+          <option>USD</option><option>EUR</option><option>GBP</option><option selected>ZAR</option><option>JPY</option>
+        </select>
+      </div>
+      <button class="swap" id="swapBtn" aria-label="Swap currencies">⇅</button>
+      <div class="conv-row">
+        <div>
+          <label for="amtTo">They receive</label>
+          <input id="amtTo" class="mono" readonly value="—">
+        </div>
+        <select id="curTo" aria-label="To currency">
+          <option selected>USD</option><option>EUR</option><option>GBP</option><option>ZAR</option><option>JPY</option>
+        </select>
+      </div>
+      <div class="rate-line" id="rateLine"></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Features</div>
+      <h2>A full account, not a wallet</h2>
+    </div>
+    <div class="grid3">
+      <div class="cardf reveal"><div class="ico">🌍</div><h3>Local details in 9 regions</h3><p>Your own account numbers in the US, UK, EU and more — get paid like a local, everywhere.</p></div>
+      <div class="cardf reveal"><div class="ico">⚡</div><h3>Instant between Orbits</h3><p>Transfers between Orbit accounts land in seconds, in any supported currency, free.</p></div>
+      <div class="cardf reveal"><div class="ico">🧊</div><h3>Freeze-anything cards</h3><p>Physical and virtual cards you can freeze, limit, or bin per-merchant from the app.</p></div>
+      <div class="cardf reveal"><div class="ico">📈</div><h3>Rate alerts & auto-convert</h3><p>Set a target rate; we convert automatically when the market touches it.</p></div>
+      <div class="cardf reveal"><div class="ico">🧾</div><h3>Multi-currency invoicing</h3><p>Invoice clients in their currency, settle in yours, reconcile in one ledger.</p></div>
+      <div class="cardf reveal"><div class="ico">🤝</div><h3>Shared spaces</h3><p>Sub-accounts with roles and limits — for teams, families, and travel groups.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="security" style="padding-top:20px">
+  <div class="wrap">
+    <div class="security reveal">
+      <div>
+        <div class="eyebrow">Security</div>
+        <h2>Guarded like an exchange, simple like an app</h2>
+        <p>Your money sits with regulated banking partners. Your access sits behind hardware-grade security. Both are audited by people we don't employ.</p>
+      </div>
+      <ul class="sec-list">
+        <li><span class="tick">✓</span><div><b>Safeguarded funds</b><span>Client money held 1:1 with regulated partners, never lent out.</span></div></li>
+        <li><span class="tick">✓</span><div><b>Passkeys & hardware keys</b><span>Phishing-resistant sign-in; SMS codes are not an option, on purpose.</span></div></li>
+        <li><span class="tick">✓</span><div><b>Real-time anomaly checks</b><span>Every transaction scored in-flight; suspicious ones held for approval.</span></div></li>
+        <li><span class="tick">✓</span><div><b>SOC 2 Type II audited</b><span>Annual independent audits, summary reports public.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span>© 2026 Orbit Financial Technologies</span>
+      <div style="display:flex;gap:20px"><a href="#features">Features</a><a href="#security">Security</a><a href="#">Legal</a></div>
+    </div>
+    <p class="disclaimer">Orbit is a fictional product for template demonstration. Rates shown are indicative only and do not constitute financial advice or an offer of financial services.</p>
+  </div>
+</footer>
+
+<script>
+  // Indicative mid-market rates against USD.
+  const USD_RATES = { USD: 1, EUR: 0.914, GBP: 0.785, ZAR: 17.42, JPY: 148.2 };
+  const $ = (id) => document.getElementById(id);
+
+  function convert() {
+    const from = $('curFrom').value, to = $('curTo').value;
+    const amt = parseFloat(String($('amtFrom').value).replace(/[,\s]/g, '')) || 0;
+    const rate = USD_RATES[to] / USD_RATES[from];
+    $('amtTo').value = (amt * rate).toLocaleString('en-US', { maximumFractionDigits: 2 });
+    $('rateLine').innerHTML = `1 ${from} = <b>${rate.toLocaleString('en-US', { maximumFractionDigits: 4 })} ${to}</b> · mid-market, no spread`;
+  }
+  ['amtFrom', 'curFrom', 'curTo'].forEach(id => {
+    $(id).addEventListener('input', convert);
+    $(id).addEventListener('change', convert);
+  });
+  $('swapBtn').addEventListener('click', () => {
+    const from = $('curFrom').value;
+    $('curFrom').value = $('curTo').value;
+    $('curTo').value = from;
+    convert();
+  });
+  convert();
+
+  // Seamless ticker loop.
+  const ticker = $('ticker');
+  ticker.innerHTML += ticker.innerHTML;
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
