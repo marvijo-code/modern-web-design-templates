@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse — Analytics Dashboard</title>
+<meta name="description" content="Pulse analytics dashboard template — KPI cards, CSS charts, data table.">
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b26; --panel2:#1a2233; --line:#26304a;
+    --text:#e6ecf7; --dim:#8b96ad; --blue:#58a6ff; --cyan:#43d9c0; --amber:#f2b544; --red:#ff6b6b; --green:#4ade80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+
+  aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;padding:6px 10px;margin-bottom:18px}
+  .brand i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;font-style:normal;font-size:13px;color:#0d1117}
+  .side-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:14px 10px 6px}
+  .side-link{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;color:var(--dim);font-weight:500;cursor:pointer;border:none;background:none;font-size:14px;width:100%;text-align:left}
+  .side-link:hover{color:var(--text);background:var(--panel2)}
+  .side-link.active{color:var(--text);background:var(--panel2);box-shadow:inset 2px 0 0 var(--blue)}
+  .side-link .ico{width:17px;text-align:center}
+  .side-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;display:flex;align-items:center;gap:10px;font-size:13px}
+  .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--red));display:grid;place-items:center;font-weight:700;color:#0d1117;font-size:12px}
+
+  main{padding:24px 28px;min-width:0}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+  h1{font-size:21px;letter-spacing:-.01em}
+  .topbar .sub{color:var(--dim);font-size:13px;margin-top:2px}
+  .controls{display:flex;gap:10px;align-items:center}
+  .range{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .range button{background:var(--panel);border:none;color:var(--dim);padding:8px 14px;cursor:pointer;font-size:13px}
+  .range button.active{background:var(--panel2);color:var(--text);font-weight:600}
+  .btn{background:linear-gradient(135deg,var(--blue),#3d7ff0);color:#fff;border:none;border-radius:10px;padding:9px 16px;font-weight:600;font-size:13px;cursor:pointer}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .kpi .name{color:var(--dim);font-size:12.5px;display:flex;justify-content:space-between}
+  .kpi .val{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:8px 0 4px}
+  .delta{font-size:12px;font-weight:600}
+  .delta.up{color:var(--green)} .delta.down{color:var(--red)}
+  .spark{display:flex;align-items:flex-end;gap:3px;height:34px;margin-top:10px}
+  .spark i{flex:1;border-radius:2px 2px 0 0;background:rgba(88,166,255,.35)}
+  .spark i:last-child{background:var(--blue)}
+
+  .row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+  .panel h2{font-size:15px;margin-bottom:2px}
+  .panel .hint{color:var(--dim);font-size:12.5px;margin-bottom:16px}
+
+  .chart{display:flex;align-items:flex-end;gap:8px;height:190px;border-bottom:1px solid var(--line);padding-bottom:0}
+  .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;position:relative}
+  .col .seg1{background:var(--blue);border-radius:4px 4px 0 0}
+  .col .seg2{background:rgba(67,217,192,.8);border-radius:4px 4px 0 0}
+  .col:hover .seg1{background:#7bb8ff}
+  .xlabels{display:flex;gap:8px;margin-top:8px}
+  .xlabels span{flex:1;text-align:center;color:var(--dim);font-size:11px}
+  .legend{display:flex;gap:18px;margin-top:14px;font-size:12px;color:var(--dim)}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+
+  .donut{display:flex;align-items:center;gap:22px}
+  .donut .ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--blue) 0 46%,var(--cyan) 46% 74%,var(--amber) 74% 91%,var(--red) 91% 100%);display:grid;place-items:center;flex-shrink:0}
+  .donut .hole{width:96px;height:96px;border-radius:50%;background:var(--panel);display:grid;place-items:center;text-align:center;font-size:11px;color:var(--dim)}
+  .donut .hole b{display:block;font-size:20px;color:var(--text)}
+  .donut ul{list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13px}
+  .donut li i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+  .donut li span{color:var(--dim);margin-left:6px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{color:var(--dim);text-align:left;font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+  th:hover{color:var(--text)}
+  td{padding:12px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--panel2)}
+  .status{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .status.healthy{color:var(--green);background:rgba(74,222,128,.12)}
+  .status.degraded{color:var(--amber);background:rgba(242,181,68,.12)}
+  .status.down{color:var(--red);background:rgba(255,107,107,.12)}
+  .table-wrap{overflow-x:auto}
+
+  @media(max-width:960px){
+    .app{grid-template-columns:1fr}
+    aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center}
+    .side-label,.side-foot{display:none}
+    .brand{margin-bottom:0}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .row{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){.kpis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><i>▲</i>Pulse</div>
+    <div class="side-label">Analytics</div>
+    <button class="side-link active"><span class="ico">◧</span>Overview</button>
+    <button class="side-link"><span class="ico">↗</span>Traffic</button>
+    <button class="side-link"><span class="ico">◔</span>Revenue</button>
+    <button class="side-link"><span class="ico">☰</span>Events</button>
+    <div class="side-label">Manage</div>
+    <button class="side-link"><span class="ico">⚙</span>Settings</button>
+    <button class="side-link"><span class="ico">✚</span>Integrations</button>
+    <div class="side-foot"><span class="avatar">JM</span><div>Jade Mokoena<br><span style="color:var(--dim);font-size:11.5px">Admin</span></div></div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div>
+        <h1>Overview</h1>
+        <div class="sub">Live picture of traffic, revenue and service health.</div>
+      </div>
+      <div class="controls">
+        <div class="range" id="range">
+          <button data-days="7">7d</button>
+          <button data-days="30" class="active">30d</button>
+          <button data-days="90">90d</button>
+        </div>
+        <button class="btn" id="exportBtn">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="row">
+      <div class="panel">
+        <h2>Sessions vs conversions</h2>
+        <div class="hint" id="chartHint">Daily totals · last 30 days (weekly buckets)</div>
+        <div class="chart" id="chart"></div>
+        <div class="xlabels" id="xlabels"></div>
+        <div class="legend">
+          <span><i style="background:var(--blue)"></i>Sessions</span>
+          <span><i style="background:var(--cyan)"></i>Conversions</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Traffic sources</h2>
+        <div class="hint">Share of sessions</div>
+        <div class="donut">
+          <div class="ring"><div class="hole"><span><b>128k</b>sessions</span></div></div>
+          <ul>
+            <li><i style="background:var(--blue)"></i>Organic <span>46%</span></li>
+            <li><i style="background:var(--cyan)"></i>Direct <span>28%</span></li>
+            <li><i style="background:var(--amber)"></i>Referral <span>17%</span></li>
+            <li><i style="background:var(--red)"></i>Paid <span>9%</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Service health</h2>
+      <div class="hint">Click a column header to sort</div>
+      <div class="table-wrap">
+        <table id="svcTable">
+          <thead><tr>
+            <th data-k="name">Service</th><th data-k="region">Region</th>
+            <th data-k="p95">p95 latency</th><th data-k="errRate">Error rate</th>
+            <th data-k="rps">RPS</th><th data-k="status">Status</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  const DATA = {
+    7:  { kpis: [["Sessions","31.2k","+4.1%",1],["Revenue","$18,940","+2.3%",1],["Conversion","3.4%","-0.2pt",0],["Active users","2,381","+9.8%",1]],
+          series: [[62,38],[71,42],[55,30],[80,52],[74,47],[90,60],[68,41]], labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], hint:"Daily totals · last 7 days" },
+    30: { kpis: [["Sessions","128.4k","+12.6%",1],["Revenue","$84,220","+8.1%",1],["Conversion","3.7%","+0.4pt",1],["Active users","9,014","+6.2%",1]],
+          series: [[58,34],[66,40],[72,45],[61,36],[78,50],[85,58],[70,44],[88,61]], labels:["W1","W2","W3","W4","W5","W6","W7","W8"].slice(0,8), hint:"Daily totals · last 30 days (weekly buckets)" },
+    90: { kpis: [["Sessions","402.9k","+21.4%",1],["Revenue","$261,080","+15.9%",1],["Conversion","3.5%","+0.1pt",1],["Active users","11,760","+18.3%",1]],
+          series: [[40,22],[48,27],[55,31],[63,38],[70,43],[77,49],[84,55],[92,62]], labels:["Feb","Mar","Apr","May","Jun","W-4","W-2","Now"], hint:"Monthly totals · last quarter" },
+  };
+  const SPARKS = [[40,55,45,70,60,85,75,95],[30,45,60,50,75,70,90,88],[55,50,60,58,65,62,70,74],[35,42,55,63,60,78,82,90]];
+
+  const SERVICES = [
+    { name:"api-gateway",   region:"eu-west",  p95:184, errRate:0.21, rps:2140, status:"healthy" },
+    { name:"checkout",      region:"eu-west",  p95:412, errRate:1.84, rps:310,  status:"degraded" },
+    { name:"search",        region:"us-east",  p95:96,  errRate:0.05, rps:980,  status:"healthy" },
+    { name:"notifications", region:"us-east",  p95:1310,errRate:6.40, rps:75,   status:"down" },
+    { name:"billing",       region:"eu-west",  p95:233, errRate:0.34, rps:190,  status:"healthy" },
+    { name:"media",         region:"af-south", p95:301, errRate:0.12, rps:645,  status:"healthy" },
+  ];
+
+  function renderKpis(days) {
+    document.getElementById('kpis').innerHTML = DATA[days].kpis.map(([name, val, delta, up], i) => `
+      <div class="kpi">
+        <div class="name"><span>${name}</span><span class="delta ${up ? 'up' : 'down'}">${delta}</span></div>
+        <div class="val">${val}</div>
+        <div class="spark">${SPARKS[i].map(h => `<i style="height:${h}%"></i>`).join('')}</div>
+      </div>`).join('');
+  }
+
+  function renderChart(days) {
+    const { series, labels, hint } = DATA[days];
+    const max = Math.max(...series.map(s => s[0] + s[1]));
+    document.getElementById('chart').innerHTML = series.map(([a, b]) => `
+      <div class="col" title="Sessions ${a} · Conversions ${b}">
+        <i class="seg2" style="height:${(b / max) * 100}%"></i>
+        <i class="seg1" style="height:${(a / max) * 100}%"></i>
+      </div>`).join('');
+    document.getElementById('xlabels').innerHTML = labels.map(l => `<span>${l}</span>`).join('');
+    document.getElementById('chartHint').textContent = hint;
+  }
+
+  let sortKey = 'name', sortDir = 1;
+  function renderTable() {
+    const rows = [...SERVICES].sort((x, y) => {
+      const a = x[sortKey], b = y[sortKey];
+      return (typeof a === 'number' ? a - b : String(a).localeCompare(String(b))) * sortDir;
+    });
+    document.querySelector('#svcTable tbody').innerHTML = rows.map(s => `
+      <tr><td><b>${s.name}</b></td><td>${s.region}</td><td>${s.p95} ms</td>
+      <td>${s.errRate.toFixed(2)}%</td><td>${s.rps.toLocaleString()}</td>
+      <td><span class="status ${s.status}">${s.status}</span></td></tr>`).join('');
+  }
+  document.querySelectorAll('#svcTable th').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.k;
+    sortDir = (sortKey === k) ? -sortDir : 1;
+    sortKey = k;
+    renderTable();
+  }));
+
+  document.getElementById('range').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    document.querySelectorAll('#range button').forEach(b => b.classList.toggle('active', b === btn));
+    renderKpis(+btn.dataset.days);
+    renderChart(+btn.dataset.days);
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const csv = ['service,region,p95_ms,error_rate,rps,status',
+      ...SERVICES.map(s => `${s.name},${s.region},${s.p95},${s.errRate},${s.rps},${s.status}`)].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'pulse-services.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  renderKpis(30); renderChart(30); renderTable();
+</script>
+</body>
+</html>
