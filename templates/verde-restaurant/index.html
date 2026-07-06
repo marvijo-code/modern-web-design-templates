@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verde — Seasonal Kitchen & Garden Bar</title>
+<meta name="description" content="Verde — a seasonal kitchen and garden bar. Tasting menus, natural wine, open fire.">
+<style>
+  :root{
+    --forest:#13291c; --moss:#1e4630; --cream:#f6f0e2; --gold:#e8d9a8;
+    --ink:#22301f; --soft:#6f7d68; --line:#d9d0ba;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font:16.5px/1.7 Georgia,'Times New Roman',serif;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  .topstrip{background:var(--forest);color:var(--gold);text-align:center;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px}
+  nav{position:sticky;top:0;z-index:40;background:rgba(246,240,226,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{font-size:24px;letter-spacing:.06em}
+  .logo span{color:var(--moss)}
+  .nav-links{display:flex;gap:26px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase}
+  .nav-links a:hover{color:var(--moss)}
+  .book-btn{background:var(--moss);color:var(--cream);padding:10px 20px;border-radius:999px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;transition:.2s}
+  .book-btn:hover{background:var(--forest)}
+
+  .hero{background:
+    radial-gradient(900px 480px at 20% -10%, rgba(232,217,168,.16), transparent 60%),
+    linear-gradient(160deg, var(--forest), var(--moss) 85%);
+    color:var(--cream);text-align:center;padding:120px 24px 100px;position:relative}
+  .hero .est{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+  .hero h1{font-size:clamp(48px,9vw,104px);font-weight:400;letter-spacing:.02em;margin:18px 0 8px}
+  .hero .tag{font-style:italic;font-size:clamp(17px,2.4vw,22px);color:#cfe0c8}
+  .hero .divider{width:56px;height:1px;background:var(--gold);margin:30px auto}
+  .hero .meta{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#a8c0a0}
+  .leaf{position:absolute;font-size:22px;opacity:.5}
+
+  section{padding:88px 0}
+  .sec-head{text-align:center;max-width:560px;margin:0 auto 48px}
+  .eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--moss);font-weight:700}
+  h2{font-size:clamp(30px,4.5vw,44px);font-weight:400;margin:12px 0 12px}
+  .sec-head p{color:var(--soft)}
+
+  .menu-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:40px;flex-wrap:wrap}
+  .menu-tab{border:1px solid var(--line);background:transparent;color:var(--soft);padding:10px 22px;border-radius:999px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .menu-tab.active{background:var(--moss);border-color:var(--moss);color:var(--cream)}
+  .menu-list{max-width:680px;margin:0 auto}
+  .dish{display:flex;align-items:baseline;gap:14px;padding:20px 4px;border-bottom:1px dashed var(--line)}
+  .dish:last-child{border-bottom:none}
+  .dish h3{font-size:19px;font-weight:400;white-space:nowrap}
+  .dish .dots{flex:1;border-bottom:1px dotted var(--line);transform:translateY(-4px)}
+  .dish .price{font-size:17px;color:var(--moss);white-space:nowrap}
+  .dish p{flex-basis:100%;color:var(--soft);font-size:14.5px;font-style:italic;margin-top:2px}
+  .dish{flex-wrap:wrap}
+  .dish .badge{font-size:10px;letter-spacing:.1em;border:1px solid var(--moss);color:var(--moss);border-radius:999px;padding:2px 8px;text-transform:uppercase;transform:translateY(-2px)}
+
+  .story{background:var(--forest);color:var(--cream)}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .story h2{color:var(--gold)}
+  .story p{color:#c9d8c2;margin-bottom:16px}
+  .story .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(232,217,168,.25)}
+  .story .stat{background:var(--forest);padding:26px 18px;text-align:center}
+  .story .stat b{display:block;font-size:34px;color:var(--gold);font-weight:400}
+  .story .stat span{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#a8c0a0}
+
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto}
+  .card{border:1px solid var(--line);background:#fffdf6;padding:34px}
+  .card h3{font-size:20px;font-weight:400;margin-bottom:16px}
+  .hours{width:100%;font-size:15px;border-collapse:collapse}
+  .hours td{padding:7px 0;border-bottom:1px dashed var(--line)}
+  .hours tr:last-child td{border-bottom:none}
+  .hours td:last-child{text-align:right;color:var(--soft)}
+  .hours .today td{color:var(--moss);font-weight:700}
+  .card p{color:var(--soft);font-size:15px;margin-bottom:10px}
+
+  form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:block;margin-bottom:6px}
+  input,select{width:100%;padding:12px 14px;border:1px solid var(--line);background:#fff;font:inherit;font-size:15px;border-radius:4px;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid var(--moss);outline-offset:-1px}
+  .full{grid-column:1/-1}
+  .submit{grid-column:1/-1;background:var(--moss);color:var(--cream);border:none;padding:15px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:inherit;transition:.2s}
+  .submit:hover{background:var(--forest)}
+  .form-msg{grid-column:1/-1;text-align:center;font-style:italic;color:var(--moss);min-height:24px}
+
+  footer{background:var(--forest);color:#a8c0a0;text-align:center;padding:44px 24px;font-size:13.5px}
+  footer .logo{color:var(--cream);display:block;margin-bottom:10px}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:800px){
+    .nav-links{display:none}
+    .story-grid,.info-grid{grid-template-columns:1fr}
+    form{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topstrip sans">Winter tasting menu now live — Wed to Sun, from 6pm</div>
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#">Verde<span>.</span></a>
+    <div class="nav-links sans">
+      <a href="#menu">Menu</a><a href="#story">Our story</a><a href="#visit">Hours</a><a href="#reserve">Contact</a>
+    </div>
+    <a class="book-btn sans" href="#reserve">Reserve</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="leaf" style="top:18%;left:12%">❦</span>
+  <span class="leaf" style="top:30%;right:10%">❧</span>
+  <span class="leaf" style="bottom:20%;left:22%">✿</span>
+  <div class="est sans">Est. 2019 — Stellenbosch</div>
+  <h1>Verde</h1>
+  <div class="tag">seasonal kitchen &amp; garden bar</div>
+  <div class="divider"></div>
+  <div class="meta sans">Open fire · Garden to table · Natural wine</div>
+</header>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow sans">The menu</div>
+      <h2>Cooked by the season</h2>
+      <p>Everything is grown in our garden or sourced within fifty kilometres. The menu changes with the weather.</p>
+    </div>
+    <div class="menu-tabs sans reveal" id="menuTabs" role="tablist">
+      <button class="menu-tab active" data-menu="small" role="tab" aria-selected="true">Small plates</button>
+      <button class="menu-tab" data-menu="fire" role="tab" aria-selected="false">From the fire</button>
+      <button class="menu-tab" data-menu="sweet" role="tab" aria-selected="false">Sweet</button>
+      <button class="menu-tab" data-menu="drinks" role="tab" aria-selected="false">Garden bar</button>
+    </div>
+    <div class="menu-list reveal" id="menuList"></div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="reveal">
+      <div class="eyebrow sans" style="color:var(--gold)">Our story</div>
+      <h2>A kitchen in a garden, not a garden on a plate</h2>
+      <p>Verde began as a Sunday lunch table under the pepper tree at the end of our vegetable rows. Seven years later the table is longer, the fire is bigger, and the idea is unchanged: cook what the garden gives, the day it gives it.</p>
+      <p>Chef Nandi Dlamini leads a kitchen of six, working from a single wood-fired hearth. No freezers, no fryers — just seasons.</p>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b>92%</b><span class="sans">grown on site</span></div>
+      <div class="stat"><b>1</b><span class="sans">wood-fired hearth</span></div>
+      <div class="stat"><b>7</b><span class="sans">course tasting</span></div>
+      <div class="stat"><b>50km</b><span class="sans">sourcing radius</span></div>
+      <div class="stat"><b>120+</b><span class="sans">natural wines</span></div>
+      <div class="stat"><b>0</b><span class="sans">freezers</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow sans">Visit</div>
+      <h2>Hours &amp; whereabouts</h2>
+    </div>
+    <div class="info-grid">
+      <div class="card reveal">
+        <h3>Opening hours</h3>
+        <table class="hours" id="hoursTable">
+          <tr data-day="3"><td>Wednesday</td><td>18:00 — 23:00</td></tr>
+          <tr data-day="4"><td>Thursday</td><td>18:00 — 23:00</td></tr>
+          <tr data-day="5"><td>Friday</td><td>12:00 — 23:30</td></tr>
+          <tr data-day="6"><td>Saturday</td><td>12:00 — 23:30</td></tr>
+          <tr data-day="0"><td>Sunday</td><td>12:00 — 16:00</td></tr>
+          <tr data-day="1"><td>Mon &amp; Tue</td><td>Closed</td></tr>
+        </table>
+      </div>
+      <div class="card reveal">
+        <h3>Find us</h3>
+        <p>14 Olyf Lane, Jonkershoek Valley<br>Stellenbosch, 7600</p>
+        <p>Reservations <b>+27 21 555 0182</b><br><a href="mailto:table@verde.restaurant" style="color:var(--moss)">table@verde.restaurant</a></p>
+        <p>Walk-ins welcome at the garden bar. Tasting menu is reservation-only, six weeks in advance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reserve" style="padding-top:0">
+  <div class="wrap" style="max-width:640px">
+    <div class="sec-head reveal">
+      <div class="eyebrow sans">Reservations</div>
+      <h2>Book a table</h2>
+    </div>
+    <form id="bookForm" class="reveal sans" novalidate>
+      <div><label for="fname">Name</label><input id="fname" required placeholder="Thandi Mokoena"></div>
+      <div><label for="femail">Email</label><input id="femail" type="email" required placeholder="you@example.com"></div>
+      <div><label for="fdate">Date</label><input id="fdate" type="date" required></div>
+      <div><label for="fguests">Guests</label>
+        <select id="fguests"><option>2 guests</option><option>3 guests</option><option>4 guests</option><option>6 guests</option><option>8+ (chef's table)</option></select>
+      </div>
+      <button class="submit" type="submit">Request reservation</button>
+      <div class="form-msg" id="formMsg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <span class="logo">Verde.</span>
+  © 2026 Verde Kitchen (Pty) Ltd · 14 Olyf Lane, Stellenbosch · No service charge — it's on us
+</footer>
+
+<script>
+  const MENUS = {
+    small: [
+      ["Charred leeks", "hazelnut cream, smoked rooibos oil", "R95", "v"],
+      ["Beetroot tartare", "horseradish snow, rye crisp", "R110", "v"],
+      ["Cured yellowtail", "naartjie, fennel flowers", "R145", ""],
+      ["Hearth flatbread", "whipped kefir butter, garden herbs", "R70", "v"],
+    ],
+    fire: [
+      ["Whole roasted celeriac", "black garlic, brown butter jus", "R180", "v"],
+      ["Karoo lamb rump", "wild rosemary, smoked plum", "R290", ""],
+      ["Line-caught kabeljou", "grilled lemon, sea lettuce", "R265", ""],
+      ["Aged ribeye for two", "bone-marrow vinaigrette, coals-baked potato", "R680", ""],
+    ],
+    sweet: [
+      ["Burnt honey tart", "buchu ice cream", "R95", "v"],
+      ["Fig leaf panna cotta", "roasted fig, olive crumble", "R90", "v"],
+      ["Dark chocolate & shiraz", "cherry, smoked salt", "R105", "v"],
+    ],
+    drinks: [
+      ["Garden spritz", "verjuice, lemon verbena, spring water", "R85", "0%"],
+      ["Pét-nat of the week", "ask your server", "R95", ""],
+      ["Smoked negroni", "hearth-smoked orange", "R120", ""],
+      ["Natural wine pairing", "five glasses with the tasting menu", "R450", ""],
+    ],
+  };
+
+  const list = document.getElementById('menuList');
+  function renderMenu(key) {
+    list.innerHTML = MENUS[key].map(([name, desc, price, badge]) => `
+      <div class="dish">
+        <h3>${name}</h3>
+        ${badge ? `<span class="badge sans">${badge}</span>` : ''}
+        <span class="dots"></span>
+        <span class="price sans">${price}</span>
+        <p>${desc}</p>
+      </div>`).join('');
+  }
+  document.getElementById('menuTabs').addEventListener('click', (e) => {
+    const tab = e.target.closest('.menu-tab');
+    if (!tab) return;
+    document.querySelectorAll('.menu-tab').forEach(t => {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-selected', String(t === tab));
+    });
+    renderMenu(tab.dataset.menu);
+  });
+  renderMenu('small');
+
+  // Highlight today's row in the hours table (Mon & Tue row covers both).
+  const day = new Date().getDay();
+  document.querySelectorAll('#hoursTable tr').forEach(tr => {
+    const d = +tr.dataset.day;
+    if (d === day || (d === 1 && (day === 1 || day === 2))) tr.classList.add('today');
+  });
+
+  // Reservation form: client-side validation + simulated confirmation.
+  const form = document.getElementById('bookForm');
+  const msg = document.getElementById('formMsg');
+  const dateInput = document.getElementById('fdate');
+  dateInput.min = new Date().toISOString().split('T')[0];
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !dateInput.value) {
+      msg.textContent = 'Please fill in your name, a valid email, and a date.';
+      return;
+    }
+    const chosen = new Date(dateInput.value + 'T12:00:00');
+    if ([1, 2].includes(chosen.getDay())) {
+      msg.textContent = 'We are closed on Mondays and Tuesdays — pick another day?';
+      return;
+    }
+    msg.textContent = `Thank you, ${name} — request received. We'll confirm by email within a day.`;
+    form.querySelectorAll('input').forEach(i => i.value = '');
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
